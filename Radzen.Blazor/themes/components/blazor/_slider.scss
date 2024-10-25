@@ -54,6 +54,10 @@ $slider-disabled-handle-border: none !default;
   width: var(--rz-slider-horizontal-width);
 }
 
+.rz-slider-vertical {
+    transform: rotate(-90deg);
+}
+
 .rz-slider-range {
   position: absolute;
   inset-block-start: -1px;
