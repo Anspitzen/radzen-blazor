@@ -457,12 +457,11 @@ window.Radzen = {
   ) {
     Radzen[id] = {};
     Radzen[id].mouseMoveHandler = function (e) {
-      if (!slider.canChange) return;
-        e.preventDefault();
+      e.preventDefault();
 
       var handle = slider.isMin ? minHandle : maxHandle;
 
-      if (isVertical && e.target != handle) return;
+      if (!slider.canChange || isVertical && e.target != handle) return;
 
       var offsetX =
         e.targetTouches && e.targetTouches[0]
@@ -471,15 +470,7 @@ window.Radzen = {
 
       var percent = (Radzen.isRTL(handle) ? parent.offsetWidth - handle.offsetLeft - offsetX : handle.offsetLeft + offsetX) / parent.offsetWidth;
 
-      if (!isVertical) {
-        if (percent > 1) {
-            percent = 1;
-        } else if (percent < 0) {
-            percent = 0;
-        }
-      }
-
-      var newValue = percent * (max - min) + min;
+      var newValue = Math.max(min, Math.min(percent, max)) * (max - min) + min;
 
       if (
         slider.canChange &&
